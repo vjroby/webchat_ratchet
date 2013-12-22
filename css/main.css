@@ -1,0 +1,15 @@
+#chatbox{
+    height: 300px ;
+    width: 400px;
+    border: solid 1px;
+    overflow-y: auto;
+}
+#chatmessage > div{
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.mine{
+    color: #575757
+;
+}
