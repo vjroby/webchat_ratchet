@@ -47,7 +47,13 @@ $nickname = uniqid('Guest_');
                     $('div.error').text('');
                     nickname.prop('readonly', true);
 
-                    conn = new WebSocket('ws://192.168.0.5:8080');
+                    try{
+                        conn = new WebSocket('ws://192.168.0.5:8080');
+                    }
+                    catch (exception){
+                        show_error(exception);
+                    }
+
                     conn.onopen = function(e) {
                         $('div.error').text('Connection established!');
                     };
@@ -59,9 +65,15 @@ $nickname = uniqid('Guest_');
 
                         //console.log(e.data);
                     };
+                    conn.onclose = function(e){
+                        $('#connect').slideDown('slow');
+                        $('#nickname').prop('readonly', false);
+                        show_error('Connection closed, server down!');
+                    };
+
                     $(this).slideUp('slow');
                 }else{
-                    $('div.error').text('Input a nickname to connect');
+                    show_error('Input a nickname to connect');
                 }
             });
 
@@ -84,13 +96,17 @@ $nickname = uniqid('Guest_');
                                 $('input#chatmessage').val('');
                             });
                     }else{
-                        $('div.error').text('Empty message!!!');
+                        show_error('Empty message!!!');
                     }
                 }else{
-                    $('div.error').text('Not connected to chat!');
+                    show_error('Not connected to chat!');
                 }
             })
         });
+
+        function show_error(message){
+            $('div.error').text(message);
+        }
 
     </script>
     </body>
